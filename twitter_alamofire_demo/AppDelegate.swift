@@ -17,12 +17,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         // MARK: TODO: Check for logged in user
-        
+        print(User.current)
         NotificationCenter.default.addObserver(forName: Notification.Name("didLogout"), object: nil, queue: OperationQueue.main) { (Notification) in
             print("Logout notification received")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
             self.window?.rootViewController = loginVC
+        }
+        if User.current != nil {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            // view controller currently being set in Storyboard as default will be overridden
+            //   let loggedInViewController = storyboard.instantiateViewController(withIdentifier: "tabBar")
+            // self.window?.rootViewController = loggedInViewController
+            let loginViewController = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")//PUT_YOUR_LOGIN_VC_ID_HERE
+            window?.rootViewController = loginViewController
+        
         }
         
         return true
