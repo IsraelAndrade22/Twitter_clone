@@ -2,7 +2,7 @@
 
 **Twitter Clone** is a basic twitter app to read and compose tweets the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **X** hours spent in total
+Time spent: **6** hours spent in total
 
 ## User Stories
 
@@ -21,7 +21,7 @@ The following **stretch** features are implemented:
 
 - [ ] The current signed in user will be persisted across restarts. (1pt)
 - [ ] Each tweet should display the relative timestamp for each tweet "8m", "7h". (1pt)
-- [ ] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. (1pt)
+- [x] User should be able to unretweet and unfavorite and should decrement the retweet and favorite count. (1pt)
 - [ ] Links in tweets are clickable. (2pts)
 - [ ] User can load more tweets once they reach the bottom of the feed using infinite loading similar to the actual Twitter client. (2pts)
 
@@ -38,7 +38,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/jSsj1Rh.gifv' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
