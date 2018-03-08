@@ -17,13 +17,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         // MARK: TODO: Check for logged in user
-        print(User.current)
+        //print(User.current)
         NotificationCenter.default.addObserver(forName: Notification.Name("didLogout"), object: nil, queue: OperationQueue.main) { (Notification) in
             print("Logout notification received")
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             let loginVC = storyboard.instantiateViewController(withIdentifier: "LoginViewController")
             self.window?.rootViewController = loginVC
         }
+        NotificationCenter.default.addObserver(forName: Notification.Name("didCompose"), object: nil, queue:
+        OperationQueue.main) {(Notification) in
+            print("Compose notification received")
+            let storyboard = UIStoryboard(name:"Main", bundle: nil)
+            let composeVC = storyboard.instantiateViewController(withIdentifier: "ComposeViewController")
+            self.window?.rootViewController = composeVC
+        }
+        NotificationCenter.default.addObserver(forName: Notification.Name("didTweet"), object: nil, queue:
+        OperationQueue.main) {(Notification) in
+            print("Tweet notification received")
+            let storyboard = UIStoryboard(name:"Main", bundle: nil)
+            let tweetVC = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+            self.window?.rootViewController = tweetVC
+        }
+        
         if User.current != nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             // view controller currently being set in Storyboard as default will be overridden

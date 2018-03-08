@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TimelineViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,ComposeViewControllerDelegate{
     
     var tweets: [Tweet] = []
     
@@ -62,7 +62,13 @@ class TimelineViewController: UIViewController, UITableViewDelegate, UITableView
     @IBAction func didTapLogout(_ sender: Any) {
         APIManager.shared.logout()
     }
-    
+    @IBAction func didTapCompose(_ sender: Any) {
+        APIManager.shared.compose()
+        
+    }
+    func did(post: Tweet) {
+        self.tableView.reloadData()
+    }
     
     /*
      // MARK: - Navigation
