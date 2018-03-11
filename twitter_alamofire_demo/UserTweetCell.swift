@@ -1,16 +1,15 @@
 //
-//  TweetCell.swift
+//  UserTweetCell.swift
 //  twitter_alamofire_demo
 //
-//  Created by Charles Hieger on 6/18/17.
-//  Copyright © 2017 Charles Hieger. All rights reserved.
+//  Created by Israel Andrade on 3/10/18.
+//  Copyright © 2018 Charles Hieger. All rights reserved.
 //
 
 import UIKit
 import AlamofireImage
+class UserTweetCell: UITableViewCell {
 
-class TweetCell: UITableViewCell {
-    
     @IBOutlet weak var timeStamp: UILabel!
     @IBOutlet weak var screenName: UILabel!
     @IBOutlet weak var username: UILabel!
@@ -31,7 +30,7 @@ class TweetCell: UITableViewCell {
             //cell.posterImageView.af_setImage(withURL: posterURL
             profilePicture.af_setImage(withURL: imageURL)
             timeStamp.text = tweet.createdAtString
-            screenName.text = tweet.user.screenName
+            screenName.text = "@" + tweet.user.screenName!
             username.text = tweet.user.name
             favoriteCount.text = tweet.favoriteCount?.description
             retweetCount.text = String(describing: tweet.retweetCount)
@@ -96,7 +95,7 @@ class TweetCell: UITableViewCell {
             }
             self.favoriteCount.text = tweet.favoriteCount?.description
         }
-
+            
         else {
             buttonImage.setImage(#imageLiteral(resourceName: "favor-icon"), for: .normal)
             tweet.favorited = false
@@ -109,9 +108,9 @@ class TweetCell: UITableViewCell {
                 }
             }
             self.favoriteCount.text = tweet.favoriteCount?.description
-
+            
         }
-
+        
     }
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -123,5 +122,5 @@ class TweetCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    
+
 }

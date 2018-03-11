@@ -1,34 +1,29 @@
 //
-//  ComposeViewController.swift
+//  ReplyViewController.swift
 //  twitter_alamofire_demo
 //
-//  Created by Israel Andrade on 3/5/18.
+//  Created by Israel Andrade on 3/10/18.
 //  Copyright © 2018 Charles Hieger. All rights reserved.
 //
 
 import UIKit
 import RSKPlaceholderTextView
-
-protocol ComposeViewControllerDelegate:NSObjectProtocol{
-    func did(post: Tweet)
-}
-class ComposeViewController: UIViewController, UITextViewDelegate {
-    @IBOutlet weak var profilePicture: UIImageView!
+class ReplyViewController: UIViewController, UITextViewDelegate {
+    var tweet: Tweet!
+    
+    
+    @IBOutlet weak var textView: RSKPlaceholderTextView!
     
     @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var textView: RSKPlaceholderTextView!
-    weak var delegate: ComposeViewControllerDelegate?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let pictureUrl = User.current?.profile_image_url_https
-        let imageURL = URL(string: pictureUrl!)!
-        profilePicture.af_setImage(withURL: imageURL)
+
         // Do any additional setup after loading the view.
         self.textView.placeholder = "What do you want to say about this event?"
         self.view.addSubview(self.textView)
         textView.delegate = self
-        
     }
 
     override func didReceiveMemoryWarning() {
@@ -36,23 +31,19 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func didTapTweet(_ sender: Any) {
-        APIManager.shared.composeTweet(with: textView.text) { (tweet, error) in
+    @IBAction func didTapReply(_ sender: Any) {
+        APIManager.shared.composeReply(with: textView.text, with: tweet) { (tweet, error) in
             if let error = error {
                 print("Error composing Tweet: \(error.localizedDescription)")
-            } else if let tweet = tweet {
-                self.delegate?.did(post: tweet)
-                 APIManager.shared.home()
+            } else if tweet != nil {
+                APIManager.shared.home()
                 print("Compose Tweet Success!")
             }
         }
     }
-    
     @IBAction func didCancel(_ sender: Any) {
         APIManager.shared.home()
     }
-    
-    
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         // TODO: Check the proposed new text character count
         // Allow or disallow the new text
@@ -69,7 +60,6 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
         // The new text should be allowed? True/False
         return newText.characters.count < characterLimit
     }
-
     /*
     // MARK: - Navigation
 
@@ -81,5 +71,3 @@ class ComposeViewController: UIViewController, UITextViewDelegate {
     */
 
 }
-
-

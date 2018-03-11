@@ -62,10 +62,15 @@ class APIManager: SessionManager {
     func compose() {
         NotificationCenter.default.post(name: NSNotification.Name("didCompose"), object: nil)
     }
-    
-    func tweet() {
-        NotificationCenter.default.post(name: NSNotification.Name("didTweet"), object: nil)
+    func home() {
+        NotificationCenter.default.post(name: NSNotification.Name("homeTweets"), object: nil)
     }
+    func profile() {
+        NotificationCenter.default.post(name: NSNotification.Name("profile"), object: nil)
+    }
+//    func tweet() {
+//        NotificationCenter.default.post(name: NSNotification.Name(""), object: nil)
+//    }
 
     func getCurrentAccount(completion: @escaping (User?, Error?) -> ()) {
         request(URL(string: "https://api.twitter.com/1.1/account/verify_credentials.json")!)
@@ -87,6 +92,37 @@ class APIManager: SessionManager {
     
     
     // MARK: TODO: Get User Timeline
+    func getUserTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
+        
+        // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh
+        // tweets,
+        
+        request(URL(string: "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=" + (User.current?.screenName)!)!, method: .get)
+            .validate()
+            .responseJSON { (response) in
+                switch response.result {
+                case .failure(let error):
+                    completion(nil, error)
+                    return
+                case .success:
+                    guard let tweetDictionaries = response.result.value as? [[String: Any]] else {
+                        print("Failed to parse tweets")
+                        let error = NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey : "Failed to parse tweets"])
+                        completion(nil, error)
+                        return
+                    }
+                    
+                    let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
+                    UserDefaults.standard.set(data, forKey: "usertimeline_tweets")
+                    UserDefaults.standard.synchronize()
+                    let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
+                        Tweet(dictionary: dictionary)
+                    })
+                    completion(tweets, nil)
+                }
+        }
+    }
+    
     func getHomeTimeLine(completion: @escaping ([Tweet]?, Error?) -> ()) {
 
         // This uses tweets from disk to avoid hitting rate limit. Comment out if you want fresh
@@ -110,7 +146,6 @@ class APIManager: SessionManager {
                     let data = NSKeyedArchiver.archivedData(withRootObject: tweetDictionaries)
                     UserDefaults.standard.set(data, forKey: "hometimeline_tweets")
                     UserDefaults.standard.synchronize()
-
                     let tweets = tweetDictionaries.flatMap({ (dictionary) -> Tweet in
                         Tweet(dictionary: dictionary)
                     })
@@ -136,7 +171,6 @@ class APIManager: SessionManager {
     }
     
     // MARK: TODO: Un-Favorite a Tweet
-    // MARK: TODO: Favorite a Tweet
     func unfavorite(_ tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
         let urlString = "https://api.twitter.com/1.1/favorites/destroy.json"
         let parameters = ["id": tweet.id]
@@ -194,7 +228,18 @@ class APIManager: SessionManager {
             completion(nil, error.underlyingError)
         }
     }
-    
+    //Mark: TODO: Reply
+    func composeReply(with text: String, with tweet: Tweet, completion: @escaping (Tweet?, Error?) -> ()) {
+        let urlString = "https://api.twitter.com/1.1/statuses/update.json?in_reply_to_status_id=" + String(describing: tweet.id)
+        let parameters = ["status": text]
+        oauthManager.client.post(urlString, parameters: parameters, headers: nil, body: nil, success: { (response: OAuthSwiftResponse) in
+            let tweetDictionary = try! response.jsonObject() as! [String: Any]
+            let tweet = Tweet(dictionary: tweetDictionary)
+            completion(tweet, nil)
+        }) { (error: OAuthSwiftError) in
+            completion(nil, error.underlyingError)
+        }
+    }
     //--------------------------------------------------------------------------------//
     
     

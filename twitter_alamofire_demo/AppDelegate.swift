@@ -39,6 +39,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = tweetVC
         }
         
+        NotificationCenter.default.addObserver(forName: Notification.Name("homeTweets"), object: nil, queue:
+        OperationQueue.main) {(Notification) in
+            print("Home notification received")
+            let storyboard = UIStoryboard(name:"Main", bundle: nil)
+            let tweetVC = storyboard.instantiateViewController(withIdentifier: "TweetsNavigationController")
+            self.window?.rootViewController = tweetVC
+        }
+        NotificationCenter.default.addObserver(forName: Notification.Name("profile"), object: nil, queue:
+        OperationQueue.main) {(Notification) in
+            print("Home notification received")
+            let storyboard = UIStoryboard(name:"Main", bundle: nil)
+            let tweetVC = storyboard.instantiateViewController(withIdentifier: "navProfile")
+            self.window?.rootViewController = tweetVC
+        }
+        
         if User.current != nil {
             let storyboard = UIStoryboard(name: "Main", bundle: nil)
             // view controller currently being set in Storyboard as default will be overridden
