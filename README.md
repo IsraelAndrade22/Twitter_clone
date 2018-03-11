@@ -69,7 +69,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 # Project 6 - *Twitter_clone*
 
-Time spent: **X** hours spent in total
+Time spent: **10** hours spent in total
 
 ## User Stories
 
@@ -84,12 +84,12 @@ The following **required** stories are completed:
 
 The following **stretch** features are implemented:
 
-- [ ] Profile view includes that user's timeline. (2pts)
+- [x] Profile view includes that user's timeline. (2pts)
 - [ ] User can tap the profile image in any tweet to see another user's profile. (1pt)
    - Contains the user header view: picture and tagline.
    - Contains a section with the users basic stats: # tweets, # following, # followers.
 - [ ] After creating a new tweet, a user should be able to view it in the timeline immediately without refetching the timeline from the network. (1pt)
-- [ ] User can reply to any tweet, and replies should be prefixed with the username and the reply_id should be set when posting the tweet. (2pts)
+- [x] User can reply to any tweet, and replies should be prefixed with the username and the reply_id should be set when posting the tweet. (2pts)
 - [ ] User sees embedded images in tweet if available. (3pts)
 - [ ] Pulling down the profile page should blur and resize the header image. (2pts)
 
@@ -106,7 +106,7 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='https://i.imgur.com/JbhPJip.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
